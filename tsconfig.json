@@ -1,26 +1,34 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "plugins": [{
+      "name": "typescript-plugin-css-modules"
+    }],
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "module": "CommonJS",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "target": "ES5",
+    "jsx": "react",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitReturns": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+    "baseUrl": "./",
+    "paths": {
+      "src/*": ["src/*", "webpack.config.ts", "jest.config.ts"]
+    }
   },
   "include": [
     "src"
-  ]
+  ],
+  "exclude": ["./dist"]
+
 }

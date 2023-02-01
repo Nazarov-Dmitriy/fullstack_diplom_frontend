@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.less";
+import Main from "./pages/Main/Main";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Header from "./components/headers/Header";
+import React, { SyntheticEvent } from "react";
+import Register from "./pages/Register/Register";
+import Page from "./pages/Page";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+    <Page>
+      <Header />
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/register" element={<Register/>} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </div>
+      </Page>
+    </BrowserRouter>
   );
 }
 
 export default App;
+
+
+
