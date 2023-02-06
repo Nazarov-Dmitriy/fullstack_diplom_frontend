@@ -1,0 +1,24 @@
+.container {
+  width: 100%;
+  background: white;
+  min-height: 200px;
+  text-align: start;
+  box-sizing: border-box;
+}
+.table {
+  width: 100%;
+  border-collapse: separate;
+}
+.col_index {
+  width: 4%;
+}
+.col_text {
+  width: 22.5%;
+  text-align: start;
+}
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}

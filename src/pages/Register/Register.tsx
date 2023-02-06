@@ -1,6 +1,6 @@
 import React from "react";
-import FormRegister from "src/components/formFegister/FormRegister";
 import Sidebar from "src/components/sidebar/Sidebar";
+import FormRegister from "src/components/users/formFegister/FormRegister";
 import styles from "./Register.module.less";
 
 function Register() {

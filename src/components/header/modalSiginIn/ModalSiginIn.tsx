@@ -6,6 +6,7 @@ import uuid from "react-uuid";
 import styles from "./ModalSiginIn.module.less";
 import { useAppDispatch } from "src/app/hooks";
 import { addShowModal } from "src/features/modalSlice";
+import { isAuthenticated, addUser } from "src/features/userSlice";
 
 const loginSchema = yup.object({
   email: yup
@@ -36,19 +37,23 @@ function ModalSiginIn() {
       .validate({ email, password }, { abortEarly: false })
       .then(async () => {
         try {
-           await postLogin({
+          const result = await postLogin({
             email,
             password,
           }).unwrap();
-        } catch (err) {
-          console.log(err);
-          throw new Error("Не правальный логин или пароль");
+          if (result.user) {
+            dispatch(isAuthenticated(true));
+            dispatch(addUser(result.user));
+            dispatch(addShowModal(false));
+          }
+        } catch (error: any) {
+          if (error.status === 401) {
+            setFormErrors(["Не правальный логин или пароль"])
+          }
         }
       })
       .catch((e) => {
-        e.name === "Error"
-          ? setFormErrors([e.message])
-          : setFormErrors(e.errors);
+        setFormErrors(e.errors);
       });
   }
 
@@ -60,11 +65,7 @@ function ModalSiginIn() {
   }
 
   return (
-    <div
-      className={styles.contaner_form}
-      ref={passForm}
-      id="modal_form"
-    >
+    <div className={styles.contaner_form} ref={passForm} id="modal_form">
       <div className={styles.modal_header}>
         <span>
           <a className={styles.modal_link} href="!#" onClick={onSubmit}>
@@ -73,7 +74,11 @@ function ModalSiginIn() {
         </span>
         <p className={styles.modal_text}>или</p>
         <span>
-          <Link to="/register" className={styles.modal_link}  onClick={() => dispatch(addShowModal(false))}>
+          <Link
+            to="/register"
+            className={styles.modal_link}
+            onClick={() => dispatch(addShowModal(false))}
+          >
             Зарегистрироваться
           </Link>
         </span>

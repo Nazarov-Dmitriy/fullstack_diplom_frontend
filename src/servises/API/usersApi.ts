@@ -14,6 +14,20 @@ export interface RegisterRequest {
   name: string,
   contactPhone: string
 }
+export interface RegisterAdmin {
+  email: string,
+  password: string,
+  name: string,
+  contactPhone: string,
+  role: string
+}
+export interface SearchRequest {
+  email: string,
+  contactPhone: string,
+  name: string,
+  offset: string,
+  limit: string,
+}
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -23,8 +37,10 @@ export const userApi = createApi({
       query(body: RegisterRequest) {
         return {
           url: `client/register`,
+          credentials: 'include',
           method: 'POST',
           body,
+
         }
       },
     }),
@@ -37,20 +53,55 @@ export const userApi = createApi({
         }
       },
     }),
-    //
-    getSss: builder.query({
-      query: (url) => ({
-        url: `${url}`,
-      })
+    postRegisterAdminUsers: builder.mutation({
+      query(body: RegisterAdmin) {
+        return {
+          url: `admin/users-create/`,
+          method: 'POST',
+          body,
+        }
+      },
     }),
+    postLogout: builder.mutation({
+      query() {
+        return {
+          url: `auth/logout`,
+          method: 'POST',
+        }
+      },
+    }),
+
+    postSearchAdmin: builder.mutation({
+      query(body: SearchRequest) {
+        return {
+          url: `admin/users/`,
+          method: 'POST',
+          body,
+        }
+      },
+    }),
+
+    postSearchAManager: builder.mutation({
+      query(body: SearchRequest) {
+        return {
+          url: `manager/users/`,
+          method: 'POST',
+          body,
+        }
+      },
+    }),
+
   }),
 });
 
+
 export const {
   usePostRegisterMutation,
+  usePostRegisterAdminUsersMutation,
   usePostLoginMutation,
-  //
-  useGetSssQuery
+  usePostLogoutMutation,
+  usePostSearchAdminMutation,
+  usePostSearchAManagerMutation,
 } = userApi;
 
 

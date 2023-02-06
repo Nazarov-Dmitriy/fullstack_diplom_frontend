@@ -1,0 +1,15 @@
+.btn_icons {
+  width: 15px;
+  height: 15px;
+}
+.btn_icons_close {
+  transform: rotate(180deg);
+}
+.btn {
+  width: 100px;
+  height: 30px;
+  margin-right: 10px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
