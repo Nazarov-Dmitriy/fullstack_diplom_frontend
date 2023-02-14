@@ -3,7 +3,6 @@ import styles from "./FormRegisterAdmin.module.less";
 import * as yup from "yup";
 import uuid from "react-uuid";
 import { usePostRegisterAdminUsersMutation } from "src/servises/API/usersApi";
-import { Link } from "react-router-dom";
 
 interface IUserRegisterAdmin {
   id: string;
@@ -48,7 +47,6 @@ function FormRegisterAdmin() {
   const [postRegisterAdminUsers, { isLoading }] =
     usePostRegisterAdminUsersMutation();
   const [user, setUser] = useState<IUserRegisterAdmin>();
-  console.log(role);
 
   const keyPressSubmit = (e: KeyboardEvent) =>
     e.key === "Enter" && setTimeout(onSubmit, 0);

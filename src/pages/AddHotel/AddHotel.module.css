@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  width: 1280px;
+  padding: 20px 0;
+  margin: 0 auto;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.wraper {
+  width: 77%;
+  background: white;
+  min-height: 200px;
+  text-align: start;
+  box-sizing: border-box;
+  padding: 20px 25px;
+}
+.title {
+  margin: 10px 0;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.form_label {
+  width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.form_input {
+  box-sizing: border-box;
+  width: 80%;
+  height: 30px;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid gray;
+}
+.form_btn {
+  margin: 15px 0 0 0;
+  width: 150px;
+  height: 40px;
+  padding: 5px;
+  background: #00CED1;
+  border: none;
+  border-radius: 5px;
+}
+.error {
+  margin-top: 10px;
+}
+.text_error {
+  margin-top: 5px;
+  color: red;
+}
+.hotel {
+  margin-top: 10px;
+}
+.text_hotel {
+  margin-top: 5px;
+}

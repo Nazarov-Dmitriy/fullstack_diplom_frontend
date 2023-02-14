@@ -39,7 +39,6 @@ function FormSearch() {
     setFormErrors("");
     try {
       if (authenticated && user.role === "admin") {
-        console.log(1);
         
         let res = await postSearchAdmin({
           email,
@@ -48,7 +47,6 @@ function FormSearch() {
           offset,
           limit,
         }).unwrap();
-        console.log(res);
 
         dispatch(addDataSearch(res));
       }
@@ -63,7 +61,7 @@ function FormSearch() {
         dispatch(addDataSearch(res));
       }
     } catch (err: any) {
-      console.log(err);
+      setFormErrors(err);
     }
   }
 

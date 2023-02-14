@@ -7,6 +7,9 @@ import Register from "./pages/Register/Register";
 import Page from "./pages/Page";
 import Profile from "./pages/Profile/Profile";
 import Users from "./pages/Users/Users";
+import AddHotel from "./pages/AddHotel/AddHotel";
+import Hotel from "./pages/Hotel/Hotel";
+import HotelUpdate from "./pages/HotelUpdate/HotelUpdate";
 
 function App() {
   return (
@@ -18,7 +21,10 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/register" element={<Register/>} />
+          <Route path="/hotel" element={<Hotel/>} />
           <Route path="/users" element={<Users/>} />
+          <Route path="/add_hotel/" element={<AddHotel/>} />
+          <Route path="/hotel/update/:id" element={<HotelUpdate/>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>

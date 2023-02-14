@@ -35,8 +35,8 @@ function ListDataSearch() {
                 <th scope="row">{index + 1}</th>
                 <td>{item.id}</td>
                 <td>{item.email}</td>
-                <td>@{item.name}</td>
-                <td>@{item.contactPhone}</td>
+                <td>{item.name}</td>
+                <td>{item.contactPhone}</td>
               </tr>
             );
           })}

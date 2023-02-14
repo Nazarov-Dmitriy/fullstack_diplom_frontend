@@ -12,16 +12,24 @@ function Sidebar() {
   return (
     <div className={styles.sidebar}>
       <ul className={styles.list}>
-        <li className={styles.list_item}>
-          <span>
-            <img
-              className={styles.list_img}
-              src="../../assets/icons/shevron.png"
-              alt="shevron"
-            />
-          </span>
-          Все гостиницы
-        </li>
+        {authenticated && user.role === "admin" ? (
+          <li
+            className={styles.list_item}
+            onClick={() => {
+              navigate("/hotel");
+            }}
+          >
+            <span>
+              <img
+                className={styles.list_img}
+                src="../../assets/icons/shevron.png"
+                alt="shevron"
+              />
+            </span>
+            Все гостиницы
+          </li>
+        ) : null}
+
         <li className={styles.list_item}>
           <span>
             <img
@@ -32,16 +40,24 @@ function Sidebar() {
           </span>
           Поиск Номера
         </li>
-        <li className={styles.list_item}>
-          <span>
-            <img
-              className={styles.list_img}
-              src="../../assets/icons/shevron.png"
-              alt="shevron"
-            />
-          </span>
-          Добавить гостиницу
-        </li>
+
+        {authenticated && user.role === "admin" ? (
+          <li
+            className={styles.list_item}
+            onClick={() => {
+              navigate("/add_hotel/");
+            }}
+          >
+            <span>
+              <img
+                className={styles.list_img}
+                src="../../assets/icons/shevron.png"
+                alt="shevron"
+              />
+            </span>
+            Добавить гостиницу
+          </li>
+        ) : null}
         {authenticated && (user.role === "admin" || user.role === "manager") ? (
           <li
             className={styles.list_item}
