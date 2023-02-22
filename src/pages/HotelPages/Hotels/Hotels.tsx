@@ -6,6 +6,9 @@ import PaginateComponent from "src/components/paginateComponent/PaginateComponen
 import Sidebar from "src/components/sidebar/Sidebar";
 import { useGetSearchAdminHotelQuery } from "src/servises/API/hotelApi";
 import styles from "./Hotels.module.less";
+import { validateFormSearhHotelRoom } from "src/utils/hotelFuntion";
+import Error from "src/components/Error/Error";
+import FormSearchAdmin from "src/components/hotel/FormSearchAdmin/FormSearchAdmin";
 
 interface Params {
   title: string;
@@ -15,7 +18,7 @@ interface Params {
 
 function Hotels() {
   const { user, authenticated } = useAppSelector((state) => state.user);
-  const [formErrors, setFormErrors] = useState("");
+  const [formErrors, setFormErrors] = useState<string[]>([]);
   const [title, setTitle] = useState("");
   const [offset, setOffset] = useState("");
   const [limit, setLimit] = useState("");
@@ -26,44 +29,44 @@ function Hotels() {
   });
   const { isLoading, data, error, refetch } =
     useGetSearchAdminHotelQuery(searchParams);
-  const [searchFlag, setSearchFlag] = useState(false);
-
-  function validateInput(value: string, setFunction: Function) {
-    value.trim() === "" ? setFormErrors("") : setFormErrors("");
-    let regexp = /^[0-9]+$/;
-    if (regexp.test(value)) {
-      setFunction(Number(value));
-    } else if (value.trim() !== "") {
-      setFormErrors("Введите число");
-    } else {
-      setFunction("");
-    }
-  }
-
-  useEffect(() => {
-    refetch()
-  },[refetch]) 
-
-  const keyPressSubmit = (e: KeyboardEvent) =>
-    e.key === "Enter" ? onSubmit() : setSearchFlag(false);
-
-  function onSubmit() {
-    setSearchFlag(true);
-  }
-
-  useEffect(() => {
-    searchFlag &&
-      setSearchParams({ title: title, offset: offset, limit: limit });
-  }, [limit, offset, searchFlag, title]);
 
   useEffect(() => {
     if (error) {
       let err: any = error;
-      setFormErrors(err.data.message);
+      setFormErrors([err.data?.message || err.error]);
     } else {
-      setFormErrors("");
+      setFormErrors([]);
     }
   }, [error]);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  const keyPressSubmit = (e: KeyboardEvent) => e.key === "Enter" && onSubmit(e);
+
+  function onSubmit(
+    e:
+      | React.KeyboardEvent<Element>
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    e.preventDefault();
+    if (
+      validateFormSearhHotelRoom(
+        setFormErrors,
+        undefined,
+        offset,
+        limit,
+        undefined
+      ) === true
+    ) {
+      setSearchParams({
+        title: title,
+        offset: offset,
+        limit: limit,
+      });
+    }
+  }
 
   return (
     <>
@@ -73,56 +76,18 @@ function Hotels() {
           <h2 className={styles.title}>Гостиницы</h2>
           {authenticated && user.role === "admin" ? (
             <div>
-              <form className={styles.form}>
-                <label
-                  className={`${styles.form_label} ${styles.form_label_title} `}
-                >
-                  <p className={styles.label_text}>Название</p>
-                  <input
-                    className={styles.form_input}
-                    type="text"
-                    placeholder="Поиск..."
-                    name="title"
-                    onChange={(e) => setTitle(e.target.value)}
-                    onKeyDown={keyPressSubmit}
-                  />
-                </label>
-
-                <label className={`${styles.form_label} `}>
-                  <p className={styles.label_text}>Поиск с</p>
-                  <input
-                    className={`${styles.form_input} ${styles.offset}`}
-                    type="text"
-                    name="offset"
-                    onChange={(e) => validateInput(e.target.value, setOffset)}
-                    onKeyDown={keyPressSubmit}
-                  />
-                </label>
-
-                <label className={styles.form_label}>
-                  Количество
-                  <input
-                    className={`${styles.form_input} ${styles.limit}`}
-                    type="text"
-                    name="limit"
-                    onChange={(e) => validateInput(e.target.value, setLimit)}
-                    onKeyDown={keyPressSubmit}
-                  />
-                </label>
-
-                <button
-                  className={styles.form_btn}
-                  disabled={isLoading}
-                  type="button"
-                  onClick={onSubmit}
-                >
-                  Поиск
-                </button>
-              </form>
+               <FormSearchAdmin
+                // setId={setId}
+                setOffset={setOffset}
+                setLimit={setLimit}
+                keyPressSubmit={keyPressSubmit}
+                onSubmit={onSubmit}
+                isLoading={isLoading}
+                components={'hotel'}
+                setTitle={setTitle}
+              />            
               <div className={styles.error}>
-                {formErrors && (
-                  <p className={styles.text_error}>{formErrors}</p>
-                )}
+                {formErrors && <Error error={formErrors} />}
               </div>
               {isLoading ? (
                 <Loader />

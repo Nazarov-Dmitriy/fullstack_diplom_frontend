@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import uuid from "react-uuid";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import Loader from "src/components/Loader/Loader";
 import Sidebar from "src/components/sidebar/Sidebar";
@@ -10,14 +9,10 @@ import {
   useUpdateHotelMutation,
 } from "src/servises/API/hotelApi";
 import styles from "./HotelUpdate.module.less";
-import { dataUrlImage, onChange, removeFile } from "src/utils/hotelFuntion";
-import {
-  dragStartEnd,
-  dragStartHandle,
-  dragStartOver,
-  dropHandler,
-} from "src/utils/DragAndDrop";
+import { dataUrlImage } from "src/utils/hotelFuntion";
 import { validationSchema } from "src/utils/validateShemeHotel";
+import Error from "src/components/Error/Error";
+import FormUpdate from "src/components/hotel/FormUpdate/FormUpdate";
 
 function HotelUpdate() {
   let { id } = useParams();
@@ -27,28 +22,26 @@ function HotelUpdate() {
   const { isLoading, data, error, refetch } = useGetHotelAdminQuery(id);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [formErrors, setFormErrors] = useState<string>();
-  const [validationForm, setValidationForm] = useState(false);
+  const [formErrors, setFormErrors] = useState<string[]>([]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [images, setImages] = useState<any[]>([]);
   const [imageModal, setImageModal] = useState<string | null>("");
-  const [flag, setFlagl] = useState(true);
-  const [updateHotel, { isSuccess }] = useUpdateHotelMutation();
+  const [updateHotel, { isSuccess, isLoading: isLoading2 }] =
+    useUpdateHotelMutation();
 
   useEffect(() => {
     refetch();
   }, [refetch]);
 
-  //Обрабока ошибок с сервера
+  //   Обрабока ошибок с сервера
   useEffect(() => {
-    flag && setFlagl(!flag);
     if (error) {
       let err: any = error;
-      setFormErrors(err.data?.message);
+      setFormErrors([err.data?.message || err.error]);
     } else {
-      setFormErrors("");
+      setFormErrors([]);
     }
-  }, [error, flag]);
+  }, [error]);
 
   //Сохранение данных с сервера
   useEffect(() => {
@@ -77,7 +70,6 @@ function HotelUpdate() {
 
   //Отправка и валидация формы
   async function onSubmit() {
-    setValidationForm(true);
     await validationSchema
       .validate(
         { title, description, imageFiles, images },
@@ -85,8 +77,7 @@ function HotelUpdate() {
       )
       .then(async () => {
         try {
-          setValidationForm(false);
-          setFormErrors("");
+          setFormErrors([]);
           await updateHotel({
             id: id ? id : "",
             body: {
@@ -100,14 +91,11 @@ function HotelUpdate() {
           }).unwrap();
           refetch();
         } catch (err: any) {
-          setValidationForm(false);
-          setFormErrors("");
           setFormErrors(err?.data?.error);
         }
       })
       .catch((e) => {
         setFormErrors(e.errors);
-        setValidationForm(false);
       });
   }
 
@@ -121,151 +109,34 @@ function HotelUpdate() {
             isLoading ? (
               <Loader />
             ) : (
-              <form className={styles.form}>
-                <label className={styles.form_label}>
-                  Название
-                  <input
-                    className={styles.form_input}
-                    type="text"
-                    placeholder="Название отеля"
-                    defaultValue={data?.title || ""}
-                    onChange={(e) => setTitle(e.target.value)}
-                    maxLength={25}
-                  />
-                </label>
-
-                <label
-                  className={`${styles.form_label} ${styles.form_textarea}`}
-                >
-                  Описание
-                  <textarea
-                    className={`${styles.form_textarea} ${styles.form_input}`}
-                    defaultValue={data?.description || ""}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-                </label>
-                {imageModal && (
-                  <div className={styles.image_wraper_modal} id="modal-img">
-                    <img
-                      src={imageModal}
-                      className={styles.image_modal}
-                      alt="modal-img"
-                    />
-                    <div className={styles.image_btn_wrap}>
-                      <button
-                        onClick={() => setImageModal("")}
-                        className={styles.image_btn}
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                  </div>
-                )}
-
-                <div className={styles.photo_preview}>
-                  <div className={styles.images_list}>
-                    {images &&
-                      images.map((image, idx) => {
-                        return (
-                          <div
-                            key={uuid()}
-                            className={styles.image_wraper}
-                            id={image.name && image.name ? image.name : image}
-                            draggable="true"
-                            onDragStart={(e) => dragStartHandle(e, idx)}
-                            onDragLeave={(e) => dragStartEnd(e)}
-                            onDragEnd={(e) => dragStartEnd(e)}
-                            onDragOver={(e) => dragStartOver(e)}
-                            onDrop={(e) =>
-                              dropHandler(e, idx, images, setImages)
-                            }
-                          >
-                            {idx === 0 && (
-                              <p className={styles.title_img}>Главное фото</p>
-                            )}
-                            <img
-                              src={
-                                image.url
-                                  ? image.url
-                                  : process.env.REACT_APP_URL_STATIC +
-                                    `hotel/${id}/` +
-                                    image
-                              }
-                              className={styles.image_item}
-                              alt={image.name ? image.name : image}
-                              onClick={(e) => modalImage(e)}
-                            />
-                            <div className={styles.image_btn_wrap}>
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  removeFile(
-                                    image.name ? image.name : image,
-                                    setImages,
-                                    setImageFiles
-                                  )
-                                }
-                                id={image.name ? image.name : image}
-                                className={styles.image_btn}
-                                aria-label="Close"
-                              ></button>
-                            </div>
-                          </div>
-                        );
-                      })}
-                  </div>
-                </div>
-
-                <label className={styles.input_file}>
-                  <input
-                    type="file"
-                    multiple
-                    onChange={(e) =>
-                      onChange(e, imageFiles, images, setImageFiles)
-                    }
-                    disabled={images.length >= 10 ? true : false}
-                    accept=".png, .jpg, .jpeg, .webp"
-                  />
-                  <span className={styles.input_file_btn}>Выберите файл</span>
-                  <span className={styles.input_file_text}>Максимум 10мб</span>
-                  {imageFiles.length <= 10 ? (
-                    <span className={styles.input_file_text}>
-                      Максимум 10 файлов {images.length}
-                    </span>
-                  ) : (
-                    <span
-                      className={styles.input_file_text}
-                      style={{ color: "red" }}
-                    >
-                      Максимум 10 файлов, количество файлов {images.length}
-                    </span>
-                  )}
-                </label>
-
-                <button
-                  className={styles.form_btn}
-                  disabled={validationForm}
-                  type="button"
-                  onClick={onSubmit}
-                >
-                  Редактировать
-                </button>
-              </form>
+              <FormUpdate
+                data={data}
+                setDescription={setDescription}
+                imageModal={imageModal}
+                setImageModal={setImageModal}
+                images={images}
+                setImages={setImages}
+                setImageFiles={setImageFiles}
+                imageFiles={imageFiles}
+                modalImage={modalImage}
+                isLoading={isLoading2}
+                onSubmit={onSubmit}
+                url={process.env.REACT_APP_URL_STATIC + `hotel/${id}/`}
+                components={"hotel"}
+                setTitle={setTitle}
+              />
             )
           ) : (
             <h3>Для продолжения работы требуеться авторизация </h3>
           )}
           <div className={styles.error}>
-            {formErrors && Array.isArray(formErrors) ? (
-              formErrors.map((item) => (
-                <p key={uuid()} className={styles.text_error}>
-                  {item}
-                </p>
-              ))
-            ) : (
-              <p className={styles.text_error}>{formErrors}</p>
+            {formErrors && <Error error={formErrors} />}
+          </div>
+          <div>
+            {isSuccess && formErrors.length === 0 && (
+              <p>данные успешно изменены</p>
             )}
           </div>
-          <div>{isSuccess && <p>Данные успешно обновлены</p>}</div>
         </div>
       </div>
     </>

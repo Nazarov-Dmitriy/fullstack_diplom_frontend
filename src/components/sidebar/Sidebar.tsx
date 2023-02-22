@@ -48,7 +48,7 @@ function Sidebar() {
           <li
             className={styles.list_item}
             onClick={() => {
-              navigate("/hotel-room/update");
+              navigate("/hotel-rooms/search-admin/");
             }}
           >
             <span>

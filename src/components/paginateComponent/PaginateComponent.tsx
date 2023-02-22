@@ -31,7 +31,6 @@ const PaginateComponent: React.FC<IUseQuery> = ({ data, CardNode, search }) => {
     setItemOffset((event.selected * itemsPerPage) % data.length);
   };
 
-  console.log(`Загрузка элементов из ${itemOffset} в ${endOffset} `);
 
   return (
     <div className={styles.paginator_wrapper}>

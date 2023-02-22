@@ -22,6 +22,9 @@ function FormUpdate({
   modalImage,
   isLoading,
   onSubmit,
+  url,
+  components,
+  setTitle,
 }: {
   data: any;
   setDescription: React.Dispatch<React.SetStateAction<string>>;
@@ -34,9 +37,25 @@ function FormUpdate({
   modalImage: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
   isLoading: boolean;
   onSubmit: () => Promise<void>;
+  url: string;
+  components?: string;
+  setTitle?: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
     <form className={styles.form}>
+      {components === " hotel" && (
+        <label className={styles.form_label}>
+          Название
+          <input
+            className={styles.form_input}
+            type="text"
+            placeholder="Название отеля"
+            defaultValue={data?.title || ""}
+            onChange={(e) => setTitle && setTitle(e.target.value)}
+            maxLength={25}
+          />
+        </label>
+      )}
       <label className={`${styles.form_label} ${styles.form_textarea}`}>
         Описание
         <textarea
@@ -92,13 +111,7 @@ function FormUpdate({
                     <p className={styles.title_img}>Главное фото</p>
                   )}
                   <img
-                    src={
-                      image.url
-                        ? image.url
-                        : process.env.REACT_APP_URL_STATIC +
-                          `hotel-room/${data.hotel.id}/` +
-                          image
-                    }
+                    src={image.url ? image.url : url + image}
                     className={styles.image_item}
                     alt={image.name ? image.name : image}
                     onClick={(e) => modalImage(e)}

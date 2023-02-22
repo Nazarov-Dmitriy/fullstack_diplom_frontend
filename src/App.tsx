@@ -38,7 +38,7 @@ function App() {
             <Route path="/hotel-room/:id" element={<HotelRoom />} />
             <Route path="/hotel-room/update/:id" element={<HoteRoomUpdate />} />
             <Route
-              path="/hotel-room/update"
+              path="/hotel-rooms/search-admin/"
               element={<HotelRoomsSearchAdmin />}
             />
             <Route path="*" element={<Navigate to="/" />} />

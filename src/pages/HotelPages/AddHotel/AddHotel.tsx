@@ -1,10 +1,11 @@
-import React, { useState, KeyboardEvent } from "react";
+import React, { useState, KeyboardEvent, useEffect } from "react";
 import Sidebar from "src/components/sidebar/Sidebar";
 import styles from "./AddHotel.module.less";
 import uuid from "react-uuid";
 import { usePostAddHotelMutation } from "src/servises/API/hotelApi";
 import { hotelAddSchema } from "src/utils/validateShemeHotel";
 import { useAppSelector } from "src/app/hooks";
+import Error from "src/components/Error/Error";
 
 interface IHotel {
   id: string;
@@ -16,9 +17,19 @@ function AddHotel() {
   const { user, authenticated } = useAppSelector((state) => state.user);
   const [title, setTitlel] = useState("");
   const [description, setDescription] = useState("");
-  const [formErrors, setFormErrors] = useState<string[]>();
+  const [formErrors, setFormErrors] = useState<string[]>([]);
   const [hotel, setHotel] = useState<IHotel>();
-  const [postAddHotel, { isLoading }] = usePostAddHotelMutation();
+  const [postAddHotel, { isLoading, error, isSuccess }] =
+    usePostAddHotelMutation();
+
+  useEffect(() => {
+    if (error) {
+      let err: any = error;
+      setFormErrors([err.data?.message || err.error]);
+    } else {
+      setFormErrors([]);
+    }
+  }, [error]);
 
   const keyPressSubmit = (e: KeyboardEvent) =>
     e.key === "Enter" && setTimeout(onSubmit, 0);
@@ -84,20 +95,13 @@ function AddHotel() {
           <h3>Для продолжения работы требуеться авторизация </h3>
         )}
         <div className={styles.error}>
-          {formErrors! &&
-            formErrors!.map((err: string) => (
-              <p className={styles.text_error} key={uuid()}>
-                {err}
-              </p>
-            ))}
+          {formErrors && <Error error={formErrors} />}
         </div>
         <div className={styles.hotel}>
-          {hotel && (
-            <>
-              <p className={styles.text_hotel}>
-                Отель {hotel.title} успешно зарегистирован
-              </p>
-            </>
+          {isSuccess && hotel && (
+            <p className={styles.text_hotel}>
+              Отель {hotel.title} успешно зарегистирован
+            </p>
           )}
         </div>
       </div>

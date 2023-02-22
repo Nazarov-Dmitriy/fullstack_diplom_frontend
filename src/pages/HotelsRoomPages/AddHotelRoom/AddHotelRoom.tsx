@@ -70,7 +70,6 @@ function AddHotelRoom() {
             description,
             imageFiles,
           }).unwrap();
-          console.log(res);
         } catch (err: any) {
           setValidationForm(false);
           setFormErrors("");

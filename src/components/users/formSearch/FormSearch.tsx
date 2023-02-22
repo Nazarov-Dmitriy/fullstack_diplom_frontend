@@ -50,7 +50,7 @@ function FormSearch() {
 
         dispatch(addDataSearch(res));
       }
-      if (authenticated && user.role === "mamager") {
+      if (authenticated && user.role === "manager") {
         let res = await postSearchAManager({
           email,
           name,
