@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  width: 1280px;
+  padding: 20px 0;
+  margin: 0 auto;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.hotel_room {
+  width: 77%;
+  background: white;
+  min-height: 200px;
+  text-align: start;
+  box-sizing: border-box;
+  padding: 20px 25px;
+}
+.title {
+  margin-bottom: 10px;
+}
+.text {
+  overflow-wrap: break-word;
+  margin-top: 10px;
+}
+.card_btn {
+  height: 30px;
+  padding: 5px 10px;
+  background: #00CED1;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+.card_btns {
+  width: 100%;
+  display: flex;
+  margin-top: 15px;
+  flex-direction: row-reverse;
+}

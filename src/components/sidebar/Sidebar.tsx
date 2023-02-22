@@ -12,6 +12,20 @@ function Sidebar() {
   return (
     <div className={styles.sidebar}>
       <ul className={styles.list}>
+        <li className={styles.list_item}
+         onClick={() => {
+          navigate("/hotel-rooms-search");
+        }}>
+          <span>
+            <img
+              className={styles.list_img}
+              src="../../assets/icons/shevron.png"
+              alt="shevron"
+            />
+          </span>
+          Поиск Номера
+        </li>
+
         {authenticated && user.role === "admin" ? (
           <li
             className={styles.list_item}
@@ -30,22 +44,29 @@ function Sidebar() {
           </li>
         ) : null}
 
-        <li className={styles.list_item}>
-          <span>
-            <img
-              className={styles.list_img}
-              src="../../assets/icons/shevron.png"
-              alt="shevron"
-            />
-          </span>
-          Поиск Номера
-        </li>
+        {authenticated && user.role === "admin" ? (
+          <li
+            className={styles.list_item}
+            onClick={() => {
+              navigate("/hotel-room/update");
+            }}
+          >
+            <span>
+              <img
+                className={styles.list_img}
+                src="../../assets/icons/shevron.png"
+                alt="shevron"
+              />
+            </span>
+            Все номера
+          </li>
+         ) : null} 
 
         {authenticated && user.role === "admin" ? (
           <li
             className={styles.list_item}
             onClick={() => {
-              navigate("/add_hotel/");
+              navigate("/add-hotel/");
             }}
           >
             <span>
@@ -58,6 +79,7 @@ function Sidebar() {
             Добавить гостиницу
           </li>
         ) : null}
+
         {authenticated && (user.role === "admin" || user.role === "manager") ? (
           <li
             className={styles.list_item}

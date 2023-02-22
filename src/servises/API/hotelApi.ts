@@ -9,13 +9,27 @@ export interface AddHotelRequest {
 }
 
 export interface UpdateHotelRequest {
-  id: string | undefined;
+  id: string;
   body: {
     title: string;
     description: string;
     imageFiles: File[];
-    imagesSrc:string[];
+    imagesSrc: string[];
   }
+}
+
+export interface CreateHotelRoomRequest {
+  id: string;
+  description: string;
+  imageFiles: File[];
+}
+
+export interface UpdateHotelRoomRequest {
+  id: string;
+  hotelId:string;
+  description: string;
+  imageFiles: File[];
+  images: string[];
 }
 
 
@@ -34,7 +48,7 @@ export const hotelApi = createApi({
     }),
 
     updateHotel: builder.mutation({
-      query(data: UpdateHotelRequest) {   
+      query(data: UpdateHotelRequest) {
         const formData = new FormData();
         formData.append('title', data.body.title);
         formData.append('description', data.body.description);
@@ -43,7 +57,7 @@ export const hotelApi = createApi({
           formData.append('files', key, key.name);
         }
 
-             return {
+        return {
           url: `admin/hotels/:${data.id}`,
           method: 'PUT',
           body: formData,
@@ -51,10 +65,62 @@ export const hotelApi = createApi({
       },
     }),
 
-    getHotel: builder.query({
+    postCreateHotelRoom: builder.mutation({
+      query(data: CreateHotelRoomRequest) {
+        const formData = new FormData();
+        formData.append('id', data.id);
+        formData.append('description', data.description);
+        for (let key of data.imageFiles) {
+          formData.append('files', key, key.name);
+        }
+
+        return {
+          url: `admin/hotel-rooms/`,
+          method: 'POST',
+          body: formData,
+        }
+      },
+    }),
+
+    updateHotelRoom: builder.mutation({
+      query(data: UpdateHotelRoomRequest) {
+        const formData = new FormData();
+        formData.append('description', data.description);
+        formData.append('id', data.hotelId);
+        formData.append('images', data.images.join());
+        for (let key of data.imageFiles) {
+          formData.append('files', key, key.name);
+        }
+
+        return {
+          url: `admin/hotels-room/${data.id}`,
+          method: 'PUT',
+          body: formData,
+        }
+      },
+    }),
+
+    getHotelAdmin: builder.query({
       query(id) {
         return {
           url: `admin/hotels/${id}`,
+        }
+      },
+    }),
+
+    //новое
+    getHotel: builder.query({
+      query(id) {
+        return {
+          url: `common/hotel/${id}`,
+        }
+      },
+    }),
+
+    getHotelRoom: builder.query({
+      query(id) {
+        return {
+          url: `admin/hotels-room/${id}`,
         }
       },
     }),
@@ -70,6 +136,27 @@ export const hotelApi = createApi({
       },
     }),
 
+    //для админа
+    getSearchAdminHotelRooms: builder.query({
+      query: (arg) => {
+        const { id, limit, offset } = arg;
+        return {
+          url: 'admin/hotel-rooms',
+          params: { id, limit, offset },
+        };
+      },
+    }),
+
+    getSearchHotelRooms: builder.query({
+      query: (arg) => {
+        const { id, limit, offset, startDate, endDate, isEnabled } = arg;
+        return {
+          url: 'common/hotel-rooms',
+          params: { id, limit, offset, startDate, endDate, isEnabled },
+        };
+      },
+    }),
+
   }),
 });
 
@@ -77,8 +164,14 @@ export const hotelApi = createApi({
 export const {
   usePostAddHotelMutation,
   useGetSearchAdminHotelQuery,
+  useGetSearchAdminHotelRoomsQuery,
+  useGetSearchHotelRoomsQuery,
+  useGetHotelAdminQuery,
   useGetHotelQuery,
+  useGetHotelRoomQuery,
   useUpdateHotelMutation,
+  usePostCreateHotelRoomMutation,
+  useUpdateHotelRoomMutation
 } = hotelApi;
 
 

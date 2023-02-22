@@ -1,0 +1,11 @@
+.container {
+  padding: 40px;
+  width: 80%;
+  height: 400px;
+  margin: auto;
+}
+.img {
+  margin: auto;
+  width: 500px;
+  object-fit: cover;
+}

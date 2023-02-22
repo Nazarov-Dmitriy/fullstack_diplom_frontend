@@ -1,31 +1,29 @@
 import React, { KeyboardEvent, useState, useEffect } from "react";
 import { useAppSelector } from "src/app/hooks";
 import SearchAdminNode from "src/components/hotel/SearchAdminNode/SearchAdminNode";
-import Loader from "../../components/Loader/Loader";
+import Loader from "src/components/Loader/Loader";
 import PaginateComponent from "src/components/paginateComponent/PaginateComponent";
 import Sidebar from "src/components/sidebar/Sidebar";
-import { useGetSearchAdminHotelQuery } from "src/servises/API/hotelApi";
-import styles from "./Hotel.module.less";
+import ISearchHotelRooms from "src/models/ISearchHotelRooms";
+import { useGetSearchAdminHotelRoomsQuery } from "src/servises/API/hotelApi";
+import styles from "./HotelRoomsSearchAdmin.module.less";
 
-interface Params {
-  title: string;
-  offset: number | string;
-  limit: number | string;
-}
-
-function Hotel() {
+function HotelRoomsSearchAdmin() {
   const { user, authenticated } = useAppSelector((state) => state.user);
   const [formErrors, setFormErrors] = useState("");
-  const [title, setTitle] = useState("");
+  const [id, setId] = useState("");
   const [offset, setOffset] = useState("");
   const [limit, setLimit] = useState("");
-  const [searchParams, setSearchParams] = useState<Params>({
-    title,
+  const [searchParams, setSearchParams] = useState<ISearchHotelRooms>({
+    id,
     offset,
-    limit,
+    limit
   });
-  const { isLoading, data, error } = useGetSearchAdminHotelQuery(searchParams);
+  const { isLoading, data, error, refetch } =
+    useGetSearchAdminHotelRoomsQuery(searchParams);
   const [searchFlag, setSearchFlag] = useState(false);
+
+  console.log(data);
 
   function validateInput(value: string, setFunction: Function) {
     value.trim() === "" ? setFormErrors("") : setFormErrors("");
@@ -33,11 +31,16 @@ function Hotel() {
     if (regexp.test(value)) {
       setFunction(Number(value));
     } else if (value.trim() !== "") {
+      setFunction("");
       setFormErrors("Введите число");
     } else {
       setFunction("");
     }
   }
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   const keyPressSubmit = (e: KeyboardEvent) =>
     e.key === "Enter" ? onSubmit() : setSearchFlag(false);
@@ -47,9 +50,8 @@ function Hotel() {
   }
 
   useEffect(() => {
-    searchFlag &&
-      setSearchParams({ title: title, offset: offset, limit: limit });
-  }, [limit, offset, searchFlag, title]);
+    searchFlag && setSearchParams({ id: id, offset: offset, limit: limit });
+  }, [limit, offset, searchFlag, id]);
 
   useEffect(() => {
     if (error) {
@@ -60,25 +62,38 @@ function Hotel() {
     }
   }, [error]);
 
+  function validateId(e: React.ChangeEvent<HTMLInputElement>): void {
+    const value = e.target.value;
+    if (value.length === 24) {
+      setId(value);
+    } else if (value.length === 0) {
+      setFormErrors("");
+      setId("");
+    } else {
+      setId("");
+      setFormErrors("Id должен иметь 24 символа");
+    }
+  }
+
   return (
     <>
       <div className={styles.container}>
         <Sidebar />
         <div className={styles.hotel}>
-          <h2 className={styles.title}>Гостиницы</h2>
+          <h2 className={styles.title}>Номера</h2>
           {authenticated && user.role === "admin" ? (
             <div>
               <form className={styles.form}>
                 <label
                   className={`${styles.form_label} ${styles.form_label_title} `}
                 >
-                  <p className={styles.label_text}>Название</p>
+                  <p className={styles.label_text}>Id Отеля</p>
                   <input
                     className={styles.form_input}
                     type="text"
                     placeholder="Поиск..."
                     name="title"
-                    onChange={(e) => setTitle(e.target.value)}
+                    onChange={(e) => validateId(e)}
                     onKeyDown={keyPressSubmit}
                   />
                 </label>
@@ -122,9 +137,13 @@ function Hotel() {
               {isLoading ? (
                 <Loader />
               ) : data && data.length <= 10 ? (
-                <SearchAdminNode data={data} />
+                <SearchAdminNode data={data} search={"hotel rooms"} />
               ) : (
-                <PaginateComponent data={data} CardNode={SearchAdminNode} />
+                <PaginateComponent
+                  data={data}
+                  CardNode={SearchAdminNode}
+                  search={"hotel rooms"}
+                />
               )}
             </div>
           ) : (
@@ -136,4 +155,4 @@ function Hotel() {
   );
 }
 
-export default Hotel;
+export default HotelRoomsSearchAdmin;

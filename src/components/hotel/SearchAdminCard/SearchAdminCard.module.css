@@ -10,15 +10,19 @@
 .title {
   width: 20%;
 }
+.title_id {
+  width: 45%;
+}
 .description {
   width: 60%;
   align-items: start;
 }
 .btn {
-  width: 100px;
+  width: 130px;
   height: 30px;
   padding: 5px;
   background: #00CED1;
   border: none;
   border-radius: 5px;
+  margin-left: 10px;
 }

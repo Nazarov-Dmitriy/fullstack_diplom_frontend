@@ -9,7 +9,9 @@ import styles from "./Users.module.less";
 
 function Users() {
   const dispatch = useAppDispatch();
-  const { dataSearch } = useAppSelector((state) => state.user);
+  const { dataSearch, user, authenticated } = useAppSelector(
+    (state) => state.user
+  );
   const [flagSearch, setFlagSerch] = useState(true);
 
   function showAddUser() {
@@ -27,31 +29,38 @@ function Users() {
       <Sidebar />
       <div className={styles.user_container}>
         <h2 className={styles.title}>Пользователи</h2>
-        <div className={styles.menu}>
-          <div className={styles.search} onClick={showSearch}>
-            <button className={styles.btn}>
-              Поиск
-              <img
-                src="../../assets/icons/seacrh.png"
-                alt="seacrh"
-                className={styles.icons_btn}
-              />
-            </button>
-          </div>
-          <div className={styles.create_user} onClick={showAddUser}>
-            <button className={styles.btn}>
-              Создать
-              <img
-                src="../../assets/icons/add.png"
-                alt="add user"
-                className={styles.icons_btn}
-              />
-            </button>
-          </div>
-        </div>
-        {flagSearch && <FormSearch />}
-        {dataSearch.length > 0 && <ListDataSearch />}
-        {!flagSearch && <FormRegisterAdmin />}
+        {authenticated && user.role === "admin" ? (
+          <>
+            <div className={styles.menu}>
+              <div className={styles.search} onClick={showSearch}>
+                <button className={styles.btn}>
+                  Поиск
+                  <img
+                    src="../../assets/icons/seacrh.png"
+                    alt="seacrh"
+                    className={styles.icons_btn}
+                  />
+                </button>
+              </div>
+              <div className={styles.create_user} onClick={showAddUser}>
+                <button className={styles.btn}>
+                  Создать
+                  <img
+                    src="../../assets/icons/add.png"
+                    alt="add user"
+                    className={styles.icons_btn}
+                  />
+                </button>
+              </div>
+            </div>
+
+            {flagSearch && <FormSearch />}
+            {dataSearch.length > 0 && <ListDataSearch />}
+            {!flagSearch && <FormRegisterAdmin />}
+          </>
+        ) : (
+          <h3>Для продолжения работы требуеться авторизация </h3>
+        )}
       </div>
     </div>
   );

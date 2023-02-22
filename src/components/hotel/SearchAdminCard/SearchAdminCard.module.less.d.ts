@@ -5,6 +5,7 @@ interface CssExports {
   'card': string;
   'description': string;
   'title': string;
+  'title_id': string;
 }
 export const cssExports: CssExports;
 export default cssExports;
