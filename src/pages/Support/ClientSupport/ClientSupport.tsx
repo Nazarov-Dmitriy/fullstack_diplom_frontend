@@ -5,7 +5,7 @@ import styles from "./ClientSupport.module.less";
 import useWebSocket from "react-use-websocket";
 
 function ClientSupport() {
-  const socketUrl = "wss://localhost:3004";
+  const socketUrl = "wss://localhost:81";
 
   const [showComponent, setShowComponent] = useState("create-support");
 
