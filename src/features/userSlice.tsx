@@ -10,13 +10,19 @@ interface arrSearch {
 
 interface userState {
   authenticated: boolean;
-  user: { email: string; name: string; contactPhone: string; role: string };
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    contactPhone: string;
+    role: string;
+  };
   dataSearch: arrSearch[];
 }
 
 const initialState: userState = {
   authenticated: false,
-  user: { email: "", name: "", contactPhone: "", role: "" },
+  user: { id: "", email: "", name: "", contactPhone: "", role: "" },
   dataSearch: [],
 };
 
@@ -32,6 +38,7 @@ export const userSlice = createSlice({
     },
     removeUser: (state) => {
       state.user = {
+        id: "",
         email: "",
         name: "",
         contactPhone: "",
@@ -47,8 +54,13 @@ export const userSlice = createSlice({
   },
 });
 
-export const { addUser, removeUser, isAuthenticated, addDataSearch ,clearDataSearch} =
-  userSlice.actions;
+export const {
+  addUser,
+  removeUser,
+  isAuthenticated,
+  addDataSearch,
+  clearDataSearch,
+} = userSlice.actions;
 
 export default userSlice.reducer;
 

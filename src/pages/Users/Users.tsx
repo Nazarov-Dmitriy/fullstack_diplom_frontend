@@ -29,7 +29,7 @@ function Users() {
       <Sidebar />
       <div className={styles.user_container}>
         <h2 className={styles.title}>Пользователи</h2>
-        {authenticated && user.role === "admin" ? (
+        {authenticated && (user.role === "admin" || user.role === "manager") ? (
           <>
             <div className={styles.menu}>
               <div className={styles.search} onClick={showSearch}>
@@ -42,21 +42,23 @@ function Users() {
                   />
                 </button>
               </div>
-              <div className={styles.create_user} onClick={showAddUser}>
-                <button className={styles.btn}>
-                  Создать
-                  <img
-                    src="../../assets/icons/add.png"
-                    alt="add user"
-                    className={styles.icons_btn}
-                  />
-                </button>
-              </div>
+              {user.role === "admin" && (
+                <div className={styles.create_user} onClick={showAddUser}>
+                  <button className={styles.btn}>
+                    Создать
+                    <img
+                      src="../../assets/icons/add.png"
+                      alt="add user"
+                      className={styles.icons_btn}
+                    />
+                  </button>
+                </div>
+              )}
             </div>
 
             {flagSearch && <FormSearch />}
             {dataSearch.length > 0 && <ListDataSearch />}
-            {!flagSearch && <FormRegisterAdmin />}
+            {!flagSearch && user.role === "admin" && <FormRegisterAdmin />}
           </>
         ) : (
           <h3>Для продолжения работы требуеться авторизация </h3>

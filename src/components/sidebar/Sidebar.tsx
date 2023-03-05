@@ -12,10 +12,12 @@ function Sidebar() {
   return (
     <div className={styles.sidebar}>
       <ul className={styles.list}>
-        <li className={styles.list_item}
-         onClick={() => {
-          navigate("/hotel-rooms-search");
-        }}>
+        <li
+          className={styles.list_item}
+          onClick={() => {
+            navigate("/hotel-rooms-search");
+          }}
+        >
           <span>
             <img
               className={styles.list_img}
@@ -25,6 +27,60 @@ function Sidebar() {
           </span>
           Поиск Номера
         </li>
+
+        {authenticated && user.role === "client" ? (
+          <li
+            className={styles.list_item}
+            onClick={() => {
+              navigate("/client-support/");
+            }}
+          >
+            <span>
+              <img
+                className={styles.list_img}
+                src="../../assets/icons/shevron.png"
+                alt="shevron"
+              />
+            </span>
+            Техподжержка
+          </li>
+        ) : null}
+
+        {authenticated && user.role === "client" ? (
+          <li
+            className={styles.list_item}
+            onClick={() => {
+              navigate("/user-reservations/");
+            }}
+          >
+            <span>
+              <img
+                className={styles.list_img}
+                src="../../assets/icons/shevron.png"
+                alt="shevron"
+              />
+            </span>
+            Мои брони
+          </li>
+        ) : null}
+
+        {authenticated && user.role === "manager" ? (
+          <li
+            className={styles.list_item}
+            onClick={() => {
+              navigate("/сlient-reservations/");
+            }}
+          >
+            <span>
+              <img
+                className={styles.list_img}
+                src="../../assets/icons/shevron.png"
+                alt="shevron"
+              />
+            </span>
+            Брони клиентов
+          </li>
+        ) : null}
 
         {authenticated && user.role === "admin" ? (
           <li
@@ -60,7 +116,7 @@ function Sidebar() {
             </span>
             Все номера
           </li>
-         ) : null} 
+        ) : null}
 
         {authenticated && user.role === "admin" ? (
           <li

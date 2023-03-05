@@ -7,22 +7,75 @@ import { useGetHotelRoomQuery } from "src/servises/API/hotelRoomApi";
 import styles from "./HotelRoom.module.less";
 import { useNavigate } from "react-router-dom";
 import Error from "src/components/Error/Error";
+import CalendarComponent from "src/components/Calendar/Calendar";
+import {
+  useGetReservationHotelRoomQuery,
+  usePostAddReservationMutation,
+} from "src/servises/API/reservationApi";
+import { useAppSelector } from "src/app/hooks";
+import format from "date-fns/format";
 
 function HotelRoom() {
   const navigate = useNavigate();
   let { id } = useParams();
+  const { user, authenticated } = useAppSelector((state) => state.user);
   const [formErrors, setFormErrors] = useState<string[]>([]);
   const { isLoading, data, error } = useGetHotelRoomQuery(id);
+  const {
+    isSuccess: isSuccessReservation,
+    data: dataReservation,
+    error: errorReservation,
+    refetch, 
+    isFetching,
+  } = useGetReservationHotelRoomQuery(id);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [
+    postAddReservation,
+    { isSuccess: isSuccessAddReservation, error: errorPost, data: dataPost },
+  ] = usePostAddReservationMutation();
 
   useEffect(() => {
     if (error) {
       let err: any = error;
-      setFormErrors([err.data?.message || err.error]);
+      error && setFormErrors([err.data?.message || err.error]);
+    } else if (errorPost) {
+      let errPost: any = errorPost;
+      setFormErrors([errPost.data?.message]);
+      setStartDate(null);
+      setEndDate(null);
+    } else if (errorReservation) {
+      let errReservation: any = errorReservation;
+      setFormErrors([errReservation.data?.message]);
+      setStartDate(null);
+      setEndDate(null);
     } else {
       setFormErrors([]);
     }
-  }, [error]);
+  }, [error, errorPost, errorReservation]);
 
+  useEffect(() => {
+    setStartDate(null);
+    setEndDate(null);
+    refetch();
+  }, [isSuccessAddReservation, refetch]);
+
+  async function onSubmit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    setFormErrors([]);
+    if (startDate && endDate && user.role === "client" && authenticated) {
+      await postAddReservation({
+        userId: user.id,
+        hotel: data.hotel.id,
+        roomId: data._id,
+        dateStart: startDate,
+        dateEnd: endDate,
+      });
+    } else {
+      setFormErrors(["Укажите дату заезда и выезда"]);
+    }
+  }
+ 
   return (
     <div className={styles.container}>
       <Sidebar />
@@ -41,6 +94,20 @@ function HotelRoom() {
                 `hotel-room/${data.hotel.id}/`
               }
             />
+            <div>
+              {isSuccessReservation && !isFetching && (
+                <CalendarComponent
+                  setStartDate={setStartDate}
+                  startDate={startDate}
+                  setEndDate={setEndDate}
+                  endDate={endDate}
+                  reservations={dataReservation}
+                />
+              )}
+            </div>
+            <div className={styles.celender_error}>
+              <Error error={formErrors} />
+            </div>
             <div className={styles.card_btns}>
               <button
                 className={styles.card_btn}
@@ -48,6 +115,26 @@ function HotelRoom() {
               >
                 Подробнее о отеле
               </button>
+              <button
+                className={styles.card_btn}
+                onClick={(e) => onSubmit(e)}
+                disabled={user.role !== "client" || !authenticated}
+              >
+                Забранировать
+              </button>
+            </div>
+            <div>
+              {dataPost && (
+                <p>
+                  {`
+                    ${user.name} вы успешно забранировали в отеле ${
+                    dataPost.hotel.title
+                  } комнату с 
+                    ${format(new Date(dataPost.dateStart), "dd-MM-yyyy")} по
+                    ${format(new Date(dataPost.dateEnd), "dd-MM-yyyy")}
+                    `}
+                </p>
+              )}
             </div>
           </>
         ) : (

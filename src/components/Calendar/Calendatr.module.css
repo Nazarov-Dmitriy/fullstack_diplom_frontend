@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+.select {
+  background: #006edc;
+  color: white;
+}
+.text_error {
+  color: red;
+}
+.calendar_wrapper {
+  display: flex;
+  justify-content: space-evenly;
+}
+.calendar_start {
+  display: flex;
+  flex-direction: column;
+}
+.calendar_end {
+  display: flex;
+  flex-direction: column;
+}

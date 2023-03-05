@@ -61,8 +61,6 @@ function HotelRoomsSearch() {
         id,
         offset,
         limit,
-        startDate,
-        endDate
       ) === true
     ) {
       setSearchParams({
@@ -90,6 +88,8 @@ function HotelRoomsSearch() {
             setStartDate={setStartDate}
             setEndDate={setEndDate}
             onSubmit={onSubmit}
+            startDate={startDate}
+            endDate={endDate}
           />
           <div className={styles.error}>
             {formErrors && <Error error={formErrors} />}

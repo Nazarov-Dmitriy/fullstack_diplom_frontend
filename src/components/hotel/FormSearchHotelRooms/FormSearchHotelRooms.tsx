@@ -10,17 +10,25 @@ function FormSearchHotelRooms({
   setStartDate,
   setEndDate,
   onSubmit,
+  startDate,
+  endDate,
 }: {
   setId: React.Dispatch<React.SetStateAction<string>>;
-  setOffset: React.Dispatch<React.SetStateAction< string>>;
-  setLimit: React.Dispatch<React.SetStateAction< string>>;
+  setOffset: React.Dispatch<React.SetStateAction<string>>;
+  setLimit: React.Dispatch<React.SetStateAction<string>>;
   setStartDate: React.Dispatch<React.SetStateAction<string | Date>>;
   setEndDate: React.Dispatch<React.SetStateAction<string | Date>>;
   keyPressSubmit: any;
   onSubmit: any;
+  startDate: any;
+  endDate: any;
 }) {
   const { user, authenticated } = useAppSelector((state) => state.user);
 
+  function clearDate() {
+    setStartDate("");
+    setEndDate("");
+  }
   return (
     <form className={styles.form}>
       <div className={styles.form_search_group}>
@@ -68,6 +76,7 @@ function FormSearchHotelRooms({
               type="date"
               onChange={(e) => setStartDate(e.target.value)}
               onKeyDown={keyPressSubmit}
+              value={startDate}
             />
           </label>
 
@@ -78,10 +87,22 @@ function FormSearchHotelRooms({
               type="date"
               onChange={(e) => setEndDate(e.target.value)}
               onKeyDown={keyPressSubmit}
+              value={endDate}
             />
           </label>
         </div>
-        <button className={styles.form_btn} type="button" onClick={(e)=>onSubmit(e)}>
+        <button
+          className={styles.form_btn}
+          type="button"
+          onClick={() => clearDate()}
+        >
+          Очистить дату
+        </button>
+        <button
+          className={styles.form_btn}
+          type="button"
+          onClick={(e) => onSubmit(e)}
+        >
           Поиск
         </button>
       </div>

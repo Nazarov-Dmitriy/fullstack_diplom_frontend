@@ -2,20 +2,29 @@ import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import ListDataSeacrh from "../hotel/ListDataSeacrh/ListDataSeacrh";
 import SearchAdminNode from "../hotel/SearchAdminNode/SearchAdminNode";
+import SearchManagerNode from "../hotel/SearchManagerNode/SearchManagerNode";
 import styles from "./PaginateItem.module.less";
 
 interface IUseQuery {
-  CardNode: typeof SearchAdminNode | typeof ListDataSeacrh;
+  CardNode:
+    | typeof SearchAdminNode
+    | typeof ListDataSeacrh
+    | typeof SearchManagerNode;
   data: any;
   search?: string;
+  refetch?: any;
 }
 
-const PaginateComponent: React.FC<IUseQuery> = ({ data, CardNode, search }) => {
+const PaginateComponent: React.FC<IUseQuery> = ({
+  data,
+  CardNode,
+  search,
+  refetch,
+}) => {
   const [itemOffset, setItemOffset] = useState(0);
   const [currentItems, setCurrentItems] = useState<any>([]);
   const [pageCount, setPageCount] = useState(0);
   const itemsPerPage = 10;
-  const endOffset = itemOffset + itemsPerPage;
 
   useEffect(() => {
     if (data) {
@@ -31,10 +40,11 @@ const PaginateComponent: React.FC<IUseQuery> = ({ data, CardNode, search }) => {
     setItemOffset((event.selected * itemsPerPage) % data.length);
   };
 
-
   return (
     <div className={styles.paginator_wrapper}>
-      {currentItems && <CardNode data={currentItems} search={search} />}
+      {currentItems && (
+        <CardNode data={currentItems} search={search} refetch={refetch} />
+      )}
       <div className={styles.paginator_wraper}>
         <ReactPaginate
           breakLabel="..."

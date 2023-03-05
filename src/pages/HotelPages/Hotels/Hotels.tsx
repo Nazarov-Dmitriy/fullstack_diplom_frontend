@@ -77,7 +77,6 @@ function Hotels() {
           {authenticated && user.role === "admin" ? (
             <div>
                <FormSearchAdmin
-                // setId={setId}
                 setOffset={setOffset}
                 setLimit={setLimit}
                 keyPressSubmit={keyPressSubmit}

@@ -21,6 +21,7 @@ function Profile() {
       <div className={styles.profile}>
         <h2 className={styles.title}>Профиль</h2>
         <div>
+          <p className={styles.text}>Id: {user.id}</p>
           <p className={styles.text}>Имя: {user.name}</p>
           <p className={styles.text}>Email: {user.email}</p>
           <p className={styles.text}>Телефон: {user.contactPhone}</p>

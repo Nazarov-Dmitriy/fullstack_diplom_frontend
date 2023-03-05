@@ -1,0 +1,27 @@
+.wraper {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.btn {
+  height: 30px;
+  padding: 5px;
+  background: #00CED1;
+  border: none;
+  border-radius: 5px;
+}
+.textarea {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid gray;
+}
+.error {
+  margin-top: 10px;
+}
+.text_error {
+  margin-top: 5px;
+  color: red;
+}

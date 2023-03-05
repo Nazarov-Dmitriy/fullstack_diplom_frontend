@@ -1,0 +1,113 @@
+.reservations {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.reservations_header {
+    display: flex;
+    font-weight: bold;
+    font-size: 18px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid grey;
+}
+
+.reservations_item {
+    display: flex;
+    padding-bottom: 3px;
+    border-bottom: 1px solid grey;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.text_id {
+    width: 30%;
+}
+
+.text_hotel {
+    width: 20%;
+}
+
+.text_data_start {
+    width: 20%;
+}
+
+.text_data_end {
+    width: 20%;
+}
+
+.text_remove {
+    width: 10%;
+}
+
+.btn_close {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    background: #00CED1;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 150ms;
+
+    &:hover,
+    &:focus {
+        transform: rotateZ(90deg);
+        background: #00CED1;
+    }
+
+}
+
+.btn_close .icon_cross {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    position: relative;
+    width: 15px;
+    height: 15px;
+
+    &:before,
+    &:after {
+        content: "";
+        position: absolute;
+        top: 6px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: #fff;
+        border-radius: 2px;
+    }
+
+    &:before {
+        transform: rotate(45deg);
+    }
+
+    &:after {
+        transform: rotate(-45deg);
+    }
+
+    span {
+        display: block;
+    }
+
+}
+
+.visually_hidden {
+    position: absolute !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0 !important;
+    border: 0 !important;
+    height: 1px !important;
+    width: 1px !important;
+    overflow: hidden;
+}
+
+.text {
+    overflow-wrap: break-word;
+    margin-top: 10px;
+}

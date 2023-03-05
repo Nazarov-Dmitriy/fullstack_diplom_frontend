@@ -1,7 +1,6 @@
 import React, { useState, KeyboardEvent, useEffect } from "react";
 import Sidebar from "src/components/sidebar/Sidebar";
 import styles from "./AddHotel.module.less";
-import uuid from "react-uuid";
 import { usePostAddHotelMutation } from "src/servises/API/hotelApi";
 import { hotelAddSchema } from "src/utils/validateShemeHotel";
 import { useAppSelector } from "src/app/hooks";

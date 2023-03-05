@@ -16,7 +16,9 @@ import HotelRoomsSearch from "./pages/HotelsRoomPages/HotelRoomsSearch/HotelRoom
 import HotelRoom from "./pages/HotelsRoomPages/HotelRoom/HotelRoom";
 import Hotels from "./pages/HotelPages/Hotels/Hotels";
 import Hotel from "./pages/HotelPages/Hotel/Hotel";
-
+import UserReservations from "./pages/Reservation/UserReservations/UserReservations";
+import ClientReservations from "./pages/Reservation/ClientReservations/ClientReservations";
+import ClientSupport from "./pages/Support/ClientSupport/ClientSupport";
 
 function App() {
   return (
@@ -41,6 +43,12 @@ function App() {
               path="/hotel-rooms/search-admin/"
               element={<HotelRoomsSearchAdmin />}
             />
+            <Route
+              path="/сlient-reservations/"
+              element={<ClientReservations />}
+            />
+            <Route path="/user-reservations/" element={<UserReservations />} />
+            <Route path="/client-support/" element={<ClientSupport />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>

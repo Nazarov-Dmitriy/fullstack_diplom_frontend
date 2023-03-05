@@ -1,0 +1,114 @@
+.container {
+  display: flex;
+  width: 1280px;
+  padding: 20px 0;
+  margin: 0 auto;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.wpaperr {
+  width: 77%;
+  background: white;
+  min-height: 200px;
+  text-align: start;
+  box-sizing: border-box;
+  padding: 20px 25px;
+}
+.title {
+  margin-bottom: 10px;
+}
+.text {
+  overflow-wrap: break-word;
+  margin-top: 10px;
+}
+.error {
+  margin-top: 10px;
+}
+.reservations {
+  margin-top: 20px;
+  width: 100%;
+}
+.reservations_header {
+  display: flex;
+  font-weight: bold;
+  font-size: 18px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid grey;
+}
+.reservations_item {
+  display: flex;
+  padding-bottom: 3px;
+  border-bottom: 1px solid grey;
+  margin-top: 10px;
+  align-items: center;
+}
+.text_hotel {
+  width: 20%;
+}
+.text_data_start {
+  width: 30%;
+}
+.text_data_end {
+  width: 30%;
+}
+.text_remove {
+  width: 20%;
+}
+.btn_close {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: #00CED1;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 150ms;
+}
+.btn_close:hover,
+.btn_close:focus {
+  transform: rotateZ(90deg);
+  background: #00CED1;
+}
+.btn_close .icon_cross {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  position: relative;
+  width: 15px;
+  height: 15px;
+}
+.btn_close .icon_cross:before,
+.btn_close .icon_cross:after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+}
+.btn_close .icon_cross:before {
+  transform: rotate(45deg);
+}
+.btn_close .icon_cross:after {
+  transform: rotate(-45deg);
+}
+.btn_close .icon_cross span {
+  display: block;
+}
+.visually_hidden {
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden;
+}

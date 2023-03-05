@@ -29,7 +29,7 @@ function Hotel() {
           <Loader />
         ) : data ? (
           <>
-            <h2 className={styles.title}>Отеля {data.title}</h2>
+            <h2 className={styles.title}>Отель {data.title}</h2>
             <p className={styles.text}>О отеле: {data.description} </p>
             <SliderComponent
               images={data.images}
