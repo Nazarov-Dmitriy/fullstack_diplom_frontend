@@ -8,6 +8,7 @@ import { reservationApi } from "src/servises/API/reservationApi";
 import modalReducer from '../features/modalSlice'
 import userReducer from '../features/userSlice'
 import hotelReducer from '../features/hotelSlice'
+import supportRequstReducer from '../features/supportRequstSlice'
 import { hotelRoomApi } from "src/servises/API/hotelRoomApi";
 import { supportApi } from "src/servises/API/supportApi";
 
@@ -21,6 +22,7 @@ export const store = configureStore({
     modal: modalReducer,
     user: userReducer,
     hotel: hotelReducer,
+    supportRequst: supportRequstReducer,
   },
 
   middleware: (getDefaultMiddleware) =>

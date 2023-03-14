@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import uuid from "react-uuid";
 import { useAppSelector } from "src/app/hooks";
 import Error from "src/components/Error/Error";

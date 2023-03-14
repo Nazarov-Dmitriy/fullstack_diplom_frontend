@@ -4,7 +4,6 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CopyPlugin from "copy-webpack-plugin";
 import path from "path";
 const Dotenv = require('dotenv-webpack');
-// import * as webpack from "webpack";
 
 const config: any = (env: any, args: any) => ({
   entry: "./src/index.tsx",
@@ -12,27 +11,10 @@ const config: any = (env: any, args: any) => ({
     path: path.resolve(__dirname, "dist"),
     publicPath: "/",
   },
-  // optimization: {
-  //   minimize: args?.mode === "production",
-  //   moduleIds: "deterministic",
-  //   runtimeChunk: {
-  //     name: (entrypoint: any) => `runtimeChunk~${entrypoint.name}`,
-  //   },
-  // },
   plugins: [
     new CleanWebpackPlugin({ dry: true }),
     new Dotenv(),
     new MiniCssExtractPlugin(),
-    // new webpack.DefinePlugin({
-    //   "process.env.API_PORT": 8080,
-    //   "process.env.API_HOST": JSON.stringify("https://test.vhospice.org"),
-    //   "process.env.API_SEED": webpack.DefinePlugin.runtimeValue(
-    //     () => JSON.stringify(Math.random()),
-    //     {
-    //       // fileDependencies: [fileDep]
-    //     }
-    //   ),
-    // }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "./src/template.html"),
       favicon: "./src/favicon.ico",
@@ -44,15 +26,14 @@ const config: any = (env: any, args: any) => ({
           from: "./src/assets",
           to: "./assets",
           force: true,
-          // noErrorOnMissing: true
         },
       ],
     }),
   ],
   devServer: {
     hot: true,
-    // liveReload: false,
-    static: [
+    port: 3004,
+     static: [
       {
         directory: path.join(__dirname, "dist"),
       },
@@ -61,8 +42,7 @@ const config: any = (env: any, args: any) => ({
       },
     ],
     compress: true,
-    port: 3004,
-    historyApiFallback: true,
+    historyApiFallback: true,  
   },
   devtool: args?.mode === "production" ? false : "source-map",
   module: {

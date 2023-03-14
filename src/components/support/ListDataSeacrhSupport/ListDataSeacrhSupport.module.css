@@ -1,0 +1,10 @@
+.support_requst_container {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
+  border-top: 3px solid grey;
+}
+.title {
+  margin-top: 10px;
+}

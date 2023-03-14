@@ -4,7 +4,7 @@ import styles from './Footer.module.less'
 function Footer() {
   return (
 
-    <div className={styles.cont}>footssser</div>
+    <div className={styles.cont}>footer</div>
   )
 }
 

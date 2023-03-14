@@ -108,7 +108,6 @@ export const hotelApi = createApi({
       },
     }),
 
-    //новое
     getHotel: builder.query({
       query(id) {
         return {
@@ -136,7 +135,6 @@ export const hotelApi = createApi({
       },
     }),
 
-    //для админа
     getSearchAdminHotelRooms: builder.query({
       query: (arg) => {
         const { id, limit, offset } = arg;

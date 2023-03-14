@@ -30,6 +30,7 @@ const PaginateComponent: React.FC<IUseQuery> = ({
     if (data) {
       setCurrentItems(data.slice(itemOffset, itemOffset + itemsPerPage));
       setPageCount(Math.ceil(data.length / itemsPerPage));
+      window.scrollTo({top: 0});
     }
   }, [itemOffset, data, itemsPerPage]);
 

@@ -19,6 +19,11 @@ import Hotel from "./pages/HotelPages/Hotel/Hotel";
 import UserReservations from "./pages/Reservation/UserReservations/UserReservations";
 import ClientReservations from "./pages/Reservation/ClientReservations/ClientReservations";
 import ClientSupport from "./pages/Support/ClientSupport/ClientSupport";
+import ManagerSupport from "./pages/Support/ManagerSupport/ManagerSupport";
+import ChatSupport from "./pages/Support/ChatSupport/ChatSupport";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:80");
 
 function App() {
   return (
@@ -49,6 +54,14 @@ function App() {
             />
             <Route path="/user-reservations/" element={<UserReservations />} />
             <Route path="/client-support/" element={<ClientSupport />} />
+            <Route
+              path="/manager-client-support/"
+              element={<ManagerSupport />}
+            />
+            <Route
+              path="/support-chat/:id"
+              element={<ChatSupport socket={socket} />}
+            />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>

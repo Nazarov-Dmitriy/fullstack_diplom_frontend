@@ -1,0 +1,43 @@
+.message_left {
+  display: flex;
+  border: 1px solid gray;
+  border-radius: 5px;
+  width: 70%;
+  flex-direction: column;
+  padding: 5px;
+  margin-top: 7px;
+}
+.message_right {
+  display: flex;
+  border: 1px solid gray;
+  border-radius: 5px;
+  width: 70%;
+  flex-direction: column;
+  padding: 5px;
+  margin-left: auto;
+  margin-top: 7px;
+}
+.message_right_noread {
+  display: flex;
+  border: 1px solid gray;
+  border-radius: 5px;
+  width: 70%;
+  flex-direction: column;
+  padding: 5px;
+  margin-left: auto;
+  margin-top: 7px;
+  background: lightgray;
+}
+.message_header {
+  display: flex;
+}
+.message_user {
+  font-size: 14px;
+  margin-right: 10px;
+}
+.message_date {
+  font-size: 14px;
+}
+.message_text {
+  margin-top: 5px;
+}

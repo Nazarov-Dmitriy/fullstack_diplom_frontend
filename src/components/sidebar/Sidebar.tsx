@@ -46,6 +46,24 @@ function Sidebar() {
           </li>
         ) : null}
 
+        {authenticated && user.role === "manager" ? (
+        <li
+          className={styles.list_item}
+          onClick={() => {
+            navigate("/manager-client-support/");
+          }}
+        >
+          <span>
+            <img
+              className={styles.list_img}
+              src="../../assets/icons/shevron.png"
+              alt="shevron"
+            />
+          </span>
+          Обращения клиентов
+        </li>
+        ) : null}
+
         {authenticated && user.role === "client" ? (
           <li
             className={styles.list_item}

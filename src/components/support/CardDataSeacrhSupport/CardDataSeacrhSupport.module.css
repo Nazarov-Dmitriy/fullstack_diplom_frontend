@@ -1,0 +1,64 @@
+.card {
+  display: flex;
+  margin: 15px 0;
+  align-items: center;
+  justify-content: space-between;
+}
+.card_body,
+.card_btns {
+  display: flex;
+}
+.card_body {
+  width: 90%;
+}
+.card_body {
+  justify-content: space-between;
+}
+.card_body_description {
+  margin-top: 10px;
+  width: 40%;
+}
+.card_btn {
+  height: 30px;
+  padding: 5px 10px;
+  background: #00CED1;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+.content {
+  margin: auto;
+  position: relative;
+}
+.countMe {
+  text-align: end;
+  position: absolute;
+  height: 20px;
+  bottom: 10px;
+  border-radius: 100%;
+  border: 1px solid red;
+  background: red;
+  color: white;
+  top: 2px;
+  right: -5px;
+  padding: 0px 5px;
+}
+.card_body_img {
+  width: 40px;
+  height: 40px;
+  margin-top: -5px;
+}
+.wraper {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid gray;
+  padding-bottom: 8px;
+}
+.user_info {
+  display: flex;
+  margin: 15px 0;
+  flex-direction: column;
+}
+.user_desciption {
+  margin-bottom: 8px;
+}

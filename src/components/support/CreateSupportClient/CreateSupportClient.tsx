@@ -5,13 +5,14 @@ import styles from "./CreateSupportClient.module.less";
 
 function CreateSupportClient() {
   const [text, setText] = useState("");
+  const [theme, setTheme] = useState("");
   const [formErrors, setFormErrors] = useState("");
   const [postSupportClient, { isSuccess }] = usePostSupportClientMutation();
-  const { user, authenticated } = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
   function onSubmit() {
     setFormErrors("");
-    if (text.length > 0) {
-      postSupportClient({ user: user.id, text });
+    if (text.length > 0 && theme.length > 0) {
+      postSupportClient({ user: user.id, text, theme });
     } else {
       setFormErrors("Сообщенние не должно быть пустым ");
     }
@@ -19,6 +20,13 @@ function CreateSupportClient() {
 
   return (
     <div className={styles.wraper}>
+      <div>
+        <h3>Тема обращения</h3>
+        <input
+          className={styles.textarea}
+          onChange={(e) => setTheme(e.target.value.trim())}
+        />
+      </div>
       <div>
         <h3>Текст обращения</h3>
         <textarea
@@ -34,7 +42,7 @@ function CreateSupportClient() {
       <div className={styles.error}>
         {formErrors && <p className={styles.text_error}>{formErrors}</p>}
       </div>
-      {isSuccess && <p>Обрращение успешно зарегистрированно</p>}
+      {isSuccess && <p>Обращение успешно зарегистрированно</p>}
     </div>
   );
 }

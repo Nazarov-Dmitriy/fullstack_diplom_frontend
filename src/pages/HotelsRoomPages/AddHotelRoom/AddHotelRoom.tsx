@@ -65,7 +65,7 @@ function AddHotelRoom() {
         try {
           setValidationForm(false);
           setFormErrors("");
-          let res = await postCreateHotelRoom({
+          await postCreateHotelRoom({
             id: id ? id : "",
             description,
             imageFiles,

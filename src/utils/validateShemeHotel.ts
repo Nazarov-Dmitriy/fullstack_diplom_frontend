@@ -12,7 +12,7 @@ const SUPPORTED_FORMATS = [
 export function validateType(files?: [File]): boolean {
     let valid = true;
     if (files) {
-        files.map((file) => {
+        files.forEach((file) => {
             if (!SUPPORTED_FORMATS.includes(file.type)) {
                 valid = false;
             }
