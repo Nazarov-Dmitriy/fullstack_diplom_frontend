@@ -30,7 +30,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "webpack serve --mode=development",
+    "start": "serve dist -p 3004",
     "build": "webpack --mode=production",
     "dev": " webpack serve --mode=development ",
     "serve": "serve dist -p 3000",

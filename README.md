@@ -25,6 +25,6 @@
 3. запустить локальный файл docker compose  `docker-compose up --build `
 
 # Переменных окружения
-REACT_APP_URL=
+REACT_APP_URL_SERVER=
 REACT_APP_URL_STATIC=
 
