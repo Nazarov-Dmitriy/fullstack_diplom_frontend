@@ -46,9 +46,7 @@ function ModalSiginIn() {
             dispatch(addUser(result.user));
             dispatch(addShowModal(false));
           }
-        } catch (error: any) {
-          console.log(1111);
-          console.log(error);          
+        } catch (error: any) {             
           if (error.status === 401) {
             setFormErrors(["Не правальный логин или пароль"])
           }
