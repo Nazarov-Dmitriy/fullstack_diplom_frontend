@@ -24,7 +24,13 @@
 3. Установить докер(десктоп версию под Win or Mac)
 3. запустить локальный файл docker compose  `docker-compose up --build `
 
+
 # Переменных окружения
-REACT_APP_URL_SERVER=
-REACT_APP_URL_STATIC=
+1. Указать url server
+*Пример*:  REACT_APP_URL_SERVER=http://localhost:80/api/
+2. Папка publick сервера
+*Пример*: REACT_APP_URL_STATIC=http://localhost:80/public/images/
+3. Указать Websoket url
+*Пример*: REACT_APP_URL_WEBSOKET=http://localhost:80/
+
 
