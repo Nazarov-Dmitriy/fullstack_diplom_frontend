@@ -2,6 +2,11 @@
 // Please do not change this file!
 interface CssExports {
   'container': string;
+  'list': string;
+  'list_item': string;
+  'main': string;
+  'text': string;
+  'title': string;
 }
 export const cssExports: CssExports;
 export default cssExports;

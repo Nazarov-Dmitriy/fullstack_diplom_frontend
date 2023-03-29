@@ -47,12 +47,15 @@ function ModalSiginIn() {
             dispatch(addShowModal(false));
           }
         } catch (error: any) {
+          console.log(1111);
+          console.log(error);          
           if (error.status === 401) {
             setFormErrors(["Не правальный логин или пароль"])
           }
+          setFormErrors([error.error]);
         }
       })
-      .catch((e) => {
+      .catch((e) => {        
         setFormErrors(e.errors);
       });
   }
