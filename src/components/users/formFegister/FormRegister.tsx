@@ -19,7 +19,7 @@ const registerSchema = yup.object({
   password: yup
     .string()
     .required("Пароль должно быть заполнен")
-    .min(6, "Пароль должен быть больше 6 символов"),
+    .min(5, "Пароль должен быть больше 5 символов"),
   name: yup
     .string()
     .min(2, "Имя должно быть больше 2 символов!")

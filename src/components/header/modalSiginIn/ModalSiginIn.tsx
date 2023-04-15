@@ -16,7 +16,7 @@ const loginSchema = yup.object({
   password: yup
     .string()
     .required("Пароль должно быть заполнен")
-    .min(6, "Пароль должен быть больше 6 символов"),
+    .min(5, "Пароль должен быть больше 5 символов"),
 });
 
 function ModalSiginIn() {
@@ -46,14 +46,17 @@ function ModalSiginIn() {
             dispatch(addUser(result.user));
             dispatch(addShowModal(false));
           }
-        } catch (error: any) {             
+        } catch (error: any) {
+          console.log(error);
+
           if (error.status === 401) {
-            setFormErrors(["Не правальный логин или пароль"])
+            setFormErrors(["Не правальный логин или пароль"]);
+          } else {
+            setFormErrors([error.error]);
           }
-          setFormErrors([error.error]);
         }
       })
-      .catch((e) => {        
+      .catch((e) => {
         setFormErrors(e.errors);
       });
   }
